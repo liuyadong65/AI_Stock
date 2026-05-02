@@ -1,16 +1,20 @@
-# This is a sample Python script.
+import akshare as ak
+import os
 
-# Press Ctrl+F5 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# 绕过公司代理，直接访问外网
+os.environ['NO_PROXY'] = '*'
+os.environ['no_proxy'] = '*'
+os.environ['HTTP_PROXY'] = ''
+os.environ['HTTPS_PROXY'] = ''
+# 1. 获取所有 A 股的实时行情数据 (来自东方财富)
+print("正在获取实时行情，请稍候...")
+stock_grid = ak.stock_zh_a_spot_em()
 
+# 2. 查看前 5 行数据
+# 列名含义：代码、名称、最新价、涨跌幅、成交量等
+print(stock_grid.head())
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press F9 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# 3. 筛选出特定的股票（比如：贵州茅台 600519）
+maotai = stock_grid[stock_grid['名称'] == '贵州茅台']
+print("\n--- 贵州茅台实时数据 ---")
+print(maotai)
